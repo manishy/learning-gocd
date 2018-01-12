@@ -1,4 +1,3 @@
-const webApp = require('./webApp.js');
 const http = require('http');
 const app = require("./app.js");
 const PORT = 5000;
