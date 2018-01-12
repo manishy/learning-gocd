@@ -24,8 +24,25 @@ const isGetRequest = function(req){
   return req.method=="GET";
 }
 
+const getContentType=function(filePath){
+    let contentTypes = {
+      '.js':'text/javascript',
+      '.html':'text/html',
+      '.css':'text/css',
+      '.jpeg':'image/jpeg',
+      '.txt':'text/plain',
+      '.pdf':'application/pdf',
+      '.jpg':'image/jpg',
+      '.gif':'image/gif',
+      '.ico':"image/ico"
+    }
+    let fileExtension = filePath.slice(filePath.lastIndexOf('.'));
+    return contentTypes[fileExtension];
+  }
+
 const requestNotFound = function(req,res){
   let url = req.url;
+  res.statusCode = 404;
   res.write(`${url} Not Found`);
   res.end()
 }
@@ -77,6 +94,7 @@ const homePageHandler = function(req,res){
         res.end();
     }else{
         let content = homePage.replace("placeHolder",loginLink);
+        content = content.replace("name","");
         res.write(content);
         res.end();
     }
@@ -87,6 +105,7 @@ let fileServer = function(req, res) {
   if (isGetRequest(req)) {
     try {
       let data = fs.readFileSync(path);
+      res.setHeader("Content-Type",getContentType(path));
       res.statusCode = 200;
       res.write(data);
       res.end()
@@ -116,7 +135,7 @@ const generateToDoListOf = (user)=>{
 }
 
 const redirectToIndexpage = function(req,res){
-  res.redirect("index.html");
+  res.redirect("/home");
 }
 
 const redirectToHomePage = function(req,res){
