@@ -1,6 +1,7 @@
 const webApp = require('./webApp.js');
 const fs = require('fs');
 let loginLink = `<a id="login" href="login">login to add comments</a>`
+const homePage = fs.readFileSync("./public/index.html","utf8");
 let app = webApp.create();
 
 let toS = o => JSON.stringify(o, null, 2);
@@ -55,6 +56,7 @@ const logoutUser = function(req,res){
 
 const postLogin = function(req,res){
   let user = registered_users.find(u=>u.userName==req.body.userName);
+  console.log(req.body)
   if(!user) {
     res.setHeader('Set-Cookie',`logInFailed=true`);
     res.redirect('/login');
@@ -65,6 +67,18 @@ const postLogin = function(req,res){
   res.setHeader('Set-Cookie',`sessionid=${sessionid}`);
   user.sessionid = sessionid;
   res.redirect('/home');
+}
+
+const homePageHandler = function(req,res){
+    if(req.user){
+        let content = homePage.replace("placeHolder","welcome");
+        res.write(content);
+        res.end();
+    }else{
+        let content = homePage.replace("placeHolder",loginLink);
+        res.write(content);
+        res.end();
+    }
 }
 
 let fileServer = function(req, res) {
@@ -93,6 +107,7 @@ app.get("/",redirectToIndexpage);
 app.get('/logout',logoutUser);
 app.post('/login',postLogin);
 app.get('/login',getLogin);
+app.get('/home',homePageHandler);
 app.use(logRequest);
 app.use(loadUser);
 app.addPostProcessor(fileServer);
