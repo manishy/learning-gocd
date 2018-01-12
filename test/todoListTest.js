@@ -33,4 +33,14 @@ describe('todoList', () => {
             done();
         });        
     });
+    describe.skip('sets status as done', () => {
+        it('should set a status of given item as done ', (done) => {
+            let todoList = new ToDoList("at Home","just home stuffs");
+            let todoItem = {text:"buy cloths",isDone:()=>true,status:true};
+            todoList.addItem(todoItem);
+            todoList.done(todoItem);
+            assert.isOk(todoList.isDone(todoItem));
+            done();
+        });        
+    });
 });
