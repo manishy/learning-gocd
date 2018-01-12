@@ -50,5 +50,30 @@ describe('app', () => {
         done();
         })
       })
-    
+      describe('POST /login',()=>{
+        it('redirects to home for valid user',done=>{
+          request(app,{method:'POST',url:'/login',body:'userName=ashishm'},res=>{
+            th.should_be_redirected_to(res,'/home');
+            th.should_not_have_cookie(res,'message');
+        })
+        done();
+        })
+        it('redirects to login.html with message for invalid user',done=>{
+          request(app,{method:'POST',url:'/login',body:'username=badUser'},res=>{
+            th.should_be_redirected_to(res,'/login');
+            th.should_have_expiring_cookie(res,'message','login failed');
+        })
+        done();
+        })
+      })
+      describe('GET /logout',()=>{
+        it('serves the home page and login link',done=>{
+          request(app,{method:'GET',url:'/home'},res=>{
+            th.status_is_ok(res);
+            th.body_contains(res,`href="login">login to add todo`);
+            th.body_does_not_contain(res,'login failed');
+        })
+        done();
+        })
+    })
 });

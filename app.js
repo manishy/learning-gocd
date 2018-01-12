@@ -1,6 +1,7 @@
 const webApp = require('./webApp.js');
 const fs = require('fs');
-let loginLink = `<a id="login" href="login">login to add comments</a>`
+let loginLink = `<a id="login" href="login">login to add todo</a>`
+const loginPage = fs.readFileSync("./public/login.html","utf8");
 const homePage = fs.readFileSync("./public/index.html","utf8");
 const user = require('./lib/todoHandler.js');
 let app = webApp.create();
@@ -62,20 +63,22 @@ const isPost = function(req){
 
 const getLogin =(req,res)=>{
   res.setHeader('Content-type','text/html');
-  res.redirect("/login.html");
+  res.write(req.cookies.message||"");
+  res.write(loginPage);
+  res.end();
 }
 
 
 const logoutUser = function(req,res){
   res.setHeader('Set-Cookie', [`message=login failed; Max-Age=5`, `sessionid=0;Max-Age=5`]);
   if(req.user) delete req.user.sessionid;
-  res.redirect('/');
+  res.redirect('/home');
 }
 
 const postLogin = function(req,res){
   let user = registered_users.find(u=>u.userName==req.body.userName);
   if(!user) {
-    res.setHeader('Set-Cookie',`logInFailed=true`);
+    res.setHeader('Set-Cookie',`message=login failed; Max-Age=5`);
     res.redirect('/login');
     return;
   }
@@ -95,6 +98,7 @@ const homePageHandler = function(req,res){
     }else{
         let content = homePage.replace("placeHolder",loginLink);
         content = content.replace("name","");
+        content = content.replace("home/logout","");        
         res.write(content);
         res.end();
     }
@@ -119,6 +123,8 @@ const generateHomePageFor =(user)=>{
     let todoList = generateToDoListOf(user);
     let content = homePage.replace("placeHolder",todoList);
     content = content.replace("name",user.name);
+    let logout = `<a href="logout"> Logout </a>`
+    content = content.replace("home/logout",logout);
     return content;
 }
 
