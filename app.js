@@ -2,6 +2,7 @@ const webApp = require('./webApp.js');
 const fs = require('fs');
 let loginLink = `<a id="login" href="login">login to add comments</a>`
 const homePage = fs.readFileSync("./public/index.html","utf8");
+const user = require('./lib/todoHandler.js');
 let app = webApp.create();
 
 let toS = o => JSON.stringify(o, null, 2);
@@ -56,7 +57,6 @@ const logoutUser = function(req,res){
 
 const postLogin = function(req,res){
   let user = registered_users.find(u=>u.userName==req.body.userName);
-  console.log(req.body)
   if(!user) {
     res.setHeader('Set-Cookie',`logInFailed=true`);
     res.redirect('/login');
@@ -71,7 +71,8 @@ const postLogin = function(req,res){
 
 const homePageHandler = function(req,res){
     if(req.user){
-        let content = homePage.replace("placeHolder","welcome");
+        let content = generateHomePageFor(user);
+        res.setHeader("Content-Type","text/html");
         res.write(content);
         res.end();
     }else{
@@ -93,6 +94,25 @@ let fileServer = function(req, res) {
       return;
     };
   };
+}
+
+const generateHomePageFor =(user)=>{
+    let todoList = generateToDoListOf(user);
+    let content = homePage.replace("placeHolder",todoList);
+    content = content.replace("name",user.name);
+    return content;
+}
+
+const generatePara = function(text){
+    return `<p>${text}</p>`;
+}
+
+const generateToDoListOf = (user)=>{
+    let titles = user.getTodoTitles();
+    let html = titles.map(title=>{
+        return generatePara(title);
+    })
+    return html.join("<br>");
 }
 
 const redirectToIndexpage = function(req,res){
