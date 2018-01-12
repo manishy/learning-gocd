@@ -1,12 +1,11 @@
 const showToDo =(title)=>{
-  let title = `title=${title}`;
+  title = `title=${title}`;
   let xml = new XMLHttpRequest();
-  xml.open("POST","/showToDoList");
+  xml.open("POST","showToDoList");
   let reqListener = ()=>{
     let responseText = this.responseText;
     let allToDoItems = responseText["todoItems"];
-    let div = document.getElementById(title);
-    console.log(title);
+    let div = document.getElementsByClassName("title")[0];
     allToDoItems.foEach((todoItem)=>{
       let item = document.createElement("p");
       div.appendChild(item);

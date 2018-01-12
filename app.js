@@ -140,13 +140,14 @@ const redirectToHomePage = function(req,res){
 }
 
 const sentToDoList = (req,res)=>{
-    let title = req.body.title;
-    let allToDoItems = user.getToDoItemsOf(title);
+    let titleOfToDoList = req.body.title;
+    let allToDoItems = user.getToDoItemsOf(titleOfToDoList);
     let contentToWrite = {
-        title:title,
+        title:titleOfToDoList,
         todoItems:allToDoItems
     }
-    // res.setHeader("Content-Type","application/json");
+    res.setHeader("Content-Type","application/json");
+    console.log(contentToWrite);
     res.write(JSON.stringify(contentToWrite));
     res.end();
 }
