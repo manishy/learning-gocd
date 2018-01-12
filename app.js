@@ -3,6 +3,8 @@ const fs = require('fs');
 let loginLink = `<a id="login" href="login">login to add todo</a>`
 const loginPage = fs.readFileSync("./public/login.html","utf8");
 const homePage = fs.readFileSync("./public/index.html","utf8");
+const toHtml = require("./toHtml/toHtml.js");
+let todoListTemplate = fs.readFileSync("./templates/todoListTitle.html","utf8");
 const user = require('./lib/todoHandler.js');
 let app = webApp.create();
 
@@ -120,24 +122,13 @@ let fileServer = function(req, res) {
 }
 
 const generateHomePageFor =(user)=>{
-    let todoList = generateToDoListOf(user);
-    let content = homePage.replace("placeHolder",todoList);
+    let title = user.getTodoTitles()[0];
+    let todoTemp = todoListTemplate.replace(/todoList1/g,title);
+    let content = homePage.replace("placeHolder",todoTemp);
     content = content.replace("name",user.name);
     let logout = `<a href="logout"> Logout </a>`
     content = content.replace("home/logout",logout);
     return content;
-}
-
-const generatePara = function(text){
-    return `<p>${text}</p>`;
-}
-
-const generateToDoListOf = (user)=>{
-    let titles = user.getTodoTitles();
-    let html = titles.map(title=>{
-        return generatePara(title);
-    })
-    return html.join("<br>");
 }
 
 const redirectToIndexpage = function(req,res){
@@ -148,9 +139,22 @@ const redirectToHomePage = function(req,res){
   res.redirect("/home");
 }
 
+const sentToDoList = (req,res)=>{
+    let title = req.body.title;
+    let allToDoItems = user.getToDoItemsOf(title);
+    let contentToWrite = {
+        title:title,
+        todoItems:allToDoItems
+    }
+    // res.setHeader("Content-Type","application/json");
+    res.write(JSON.stringify(contentToWrite));
+    res.end();
+}
+
 app.get("/",redirectToIndexpage);
 app.get('/logout',logoutUser);
 app.post('/login',postLogin);
+app.post('/showToDoList',sentToDoList);
 app.get('/login',getLogin);
 app.get('/home',homePageHandler);
 app.use(logRequest);
