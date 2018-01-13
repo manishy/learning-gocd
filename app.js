@@ -164,6 +164,7 @@ const sentToDoList = (req,res)=>{
 const showItemsOfParticularToDoList = function(req,res){
   let titleOfToDoList = req.body.title;
   let allToDoItems = user.getToDoItemsOf(titleOfToDoList);
+  allToDoItems = allToDoItems.map(toHtml.toInputTag);
   allToDoItems = allToDoItems.map(toHtml.convertIntoListTag).join("<br>");
   allToDoItems = todoItemTemp.replace("todoItemsHolder",allToDoItems);
   res.setHeader("Content-Type","text/html");

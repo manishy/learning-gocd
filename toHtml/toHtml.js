@@ -14,6 +14,10 @@ const generateToDoListOf = (user)=>{
     return html.join("<br>");
 }
 
+exports.toInputTag = function(toDoItem){
+    return `<input type="text" name="${toDoItem}" disabled value="${toDoItem}"><br>`;
+}
+
 exports.getToDoList = (todoTitle)=>{
     let todo = `<div id="${todoTitle}">
     <b><u>${todoTitle}:</u><b>
