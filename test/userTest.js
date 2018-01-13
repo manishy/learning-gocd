@@ -7,20 +7,20 @@ describe('user', () => {
     describe('adds a todoList', () => {
         it('should add a todo to users existing todos', (done) => {
             let user = new User("ashish");
-            let newTodo = new ToDoList("at Home")
-            user.addTodo(newTodo);
+            let newTodo = new ToDoList("at Home","some home stuff")
+            user.addTodo("at Home","some home stuff");
             let todos = user.todos["at Home"];
-            assert.include(todos,newTodo);
+            assert.deepEqual(todos,newTodo);
             done();
         });
     });
     describe('removes a todoList', () => {
         it('should remove a todolist from users list of todos ', (done) => {
             let user = new User("ashish");
-            let newTodo = new ToDoList("at Home")
-            user.addTodo(newTodo);
+            let newTodo = new ToDoList("at Home","some home stuffs")
+            user.addTodo("at Home","some home stuffs");
             let todos = user.todos["at Home"];
-            assert.include(todos,newTodo);
+            assert.deepEqual(todos,newTodo);
             user.removeTodo(newTodo);
             assert.notExists(user.todos["at Home"]);
             done();
@@ -29,8 +29,8 @@ describe('user', () => {
     describe('edit a title', () => {
         it('should edit title of existing todo ', (done) => {
             let user = new User("ashish");
-            let newTodo = new ToDoList("at Home")
-            user.addTodo(newTodo);
+            let newTodo = new ToDoList("at Home","some home stuffs")
+            user.addTodo("at Home","some home stuffs");
             user.editTitleOf("at Home","at Office");
             let todos = user.todos["at Home"];
             assert.notInclude(user.todos,newTodo);

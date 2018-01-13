@@ -32,10 +32,11 @@ const submitToDoItem = function(title){
   xml.send(postData);
 }
 
-const addToDoList = function(title){
+const addToDoItem = function(title){
   let div = document.getElementsByClassName(`addToDoForm${title}`)[0];
   div.innerHTML = getAddToDoItemForm("text",title);
 }
+
 window.onload = function(){
   let xml = new XMLHttpRequest();
   xml.open("GET","loadAllToDoList");

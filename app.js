@@ -5,6 +5,7 @@ const loginPage = fs.readFileSync("./public/login.html","utf8");
 const homePage = fs.readFileSync("./public/index.html","utf8");
 let todoListTemplate = fs.readFileSync("./templates/todoListTitle.html","utf8");
 let todoItemTemp = fs.readFileSync("./templates/todoItem.html","utf8");
+let addtodoForm = fs.readFileSync("./public/addToDoForm.html","utf8");
 const toHtml = require("./toHtml/toHtml.js");
 const user = require('./lib/todoHandler.js');
 let app = webApp.create();
@@ -102,6 +103,7 @@ const homePageHandler = function(req,res){
         let content = homePage.replace("placeHolder",loginLink);
         content = content.replace("name","");
         content = content.replace("home/logout","");
+        content = content.replace("addAToDo","");
         res.write(content);
         res.end();
     }
@@ -136,6 +138,7 @@ const generateHomePageFor =(user)=>{
   content = content.replace("name",user.name);
   let logout = `<a href="logout"> Logout </a>`
   content = content.replace("home/logout",logout);
+  content = content.replace("addAToDo",addtodoForm);
   return content;
 }
 
@@ -175,6 +178,14 @@ const addToDoItem = function(req,res){
   res.write(todoItem);
   res.end();
 }
+
+const addToDoList = function(req,res){
+  let title = req.body.title;
+  let description = req.body.description;
+  user.addTodo(title,description);
+  res.redirect("/home");
+}
+app.post("/addAToDoList",addToDoList);
 app.post("/showToDoList",showParticularToDoList);
 app.post("/addToDoItem",addToDoItem)
 app.get("/",redirectToIndexpage);
