@@ -170,7 +170,8 @@ const showParticularToDoList = function(req,res){
 
 const addToDoItem = function(req,res){
   let todoItem = req.body.text;
-  user.addTodoItem(todoItem,"todo at home");
+  let todoList = req.body.todoList;
+  user.addTodoItem(todoItem,todoList);
   res.write(todoItem);
   res.end();
 }

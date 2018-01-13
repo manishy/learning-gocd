@@ -6,6 +6,7 @@ const showToDo =(title)=>{
   let reqListener = function(){
     let allToDoItems = this.responseText;
     let div = document.getElementById(`${todoTitle}items`);
+    console.log(div);
     div.innerHTML = allToDoItems;
 }
   xml.addEventListener("load",reqListener);
@@ -21,7 +22,7 @@ return form;
 
 const submitToDoItem = function(title){
   let text = document.getElementById(`${title}text`).value;
-  let postData = `text=${text}`;
+  let postData = `text=${text}&todoList=${title}`;
   let xml = new XMLHttpRequest();
   xml.open("POST","addToDoItem");
   let reqListener = function(){
