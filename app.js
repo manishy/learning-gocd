@@ -197,7 +197,6 @@ const editToDoList = function(req,res){
   let newTitle = req.body.newTitle;
   let description = req.body.description;
   user.editTitleOf(oldTitle,newTitle,description);
-  console.log(user);
   res.end();
 }
 app.post("/editToDoList",editToDoList)
