@@ -26,7 +26,7 @@ const submitToDoItem = function(title){
   let xml = new XMLHttpRequest();
   xml.open("POST","addToDoItem");
   let reqListener = function(){
-    showToDo(title);
+    window.location.reload();
   }
   xml.addEventListener("load",reqListener);
   xml.send(postData);
@@ -35,6 +35,17 @@ const submitToDoItem = function(title){
 const addToDoItem = function(title){
   let div = document.getElementsByClassName(`addToDoForm${title}`)[0];
   div.innerHTML = getAddToDoItemForm("text",title);
+}
+
+const deleteToDoList = function(title){
+  let postData = `title=${title}`;
+  let xml = new XMLHttpRequest();
+  xml.open("POST","deleteToDoList");
+  let reqListener = function(){
+    window.location.reload();
+  }
+  xml.addEventListener("load",reqListener);
+  xml.send(postData);
 }
 
 window.onload = function(){

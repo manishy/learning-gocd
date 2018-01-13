@@ -185,6 +185,13 @@ const addToDoList = function(req,res){
   user.addTodo(title,description);
   res.redirect("/home");
 }
+
+const deleteToDo = function(req,res){
+  let title = req.body.title;
+  user.removeTodo(title);
+  res.redirect("/home");
+}
+app.post("/deleteToDoList",deleteToDo)
 app.post("/addAToDoList",addToDoList);
 app.post("/showToDoList",showParticularToDoList);
 app.post("/addToDoItem",addToDoItem)

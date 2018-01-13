@@ -21,7 +21,7 @@ describe('user', () => {
             user.addTodo("at Home","some home stuffs");
             let todos = user.todos["at Home"];
             assert.deepEqual(todos,newTodo);
-            user.removeTodo(newTodo);
+            user.removeTodo("at Home");
             assert.notExists(user.todos["at Home"]);
             done();
         });
