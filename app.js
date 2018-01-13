@@ -167,17 +167,15 @@ const showParticularToDoList = function(req,res){
   res.end();
 }
 
-const handlerIfUrlStartsWith = function(req,res){
-  if(req.url.startsWith("/showToDoList")){
-    let titleOfToDoList = req.url.slice(13);
-    let allToDoItems = user.getToDoItemsOf(titleOfToDoList).join("<br>");
-    allToDoItems = todoItemTemp.replace("todoItemsHolder",allToDoItems);
-    res.setHeader("Content-Type","text/html");
-    res.write(allToDoItems);
-    res.end();
-  }
+
+const addToDoItem = function(req,res){
+  let todoItem = req.body.text;
+  user.addTodoItem(todoItem,"todo at home");
+  res.write(todoItem);
+  res.end();
 }
 app.post("/showToDoList",showParticularToDoList);
+app.post("/addToDoItem",addToDoItem)
 app.get("/",redirectToIndexpage);
 app.get('/logout',logoutUser);
 app.post('/login',postLogin);

@@ -1,42 +1,39 @@
 const showToDo =(title)=>{
   let todoTitle = title;
   title = `title=${title}`;
-  console.log(title);
   let xml = new XMLHttpRequest();
   xml.open("POST","showToDoList");
   let reqListener = function(){
     let allToDoItems = this.responseText;
-    let div = document.getElementsByClassName(todoTitle)[0];
+    let div = document.getElementById(`${todoTitle}items`);
     div.innerHTML = allToDoItems;
 }
   xml.addEventListener("load",reqListener);
   xml.send(title);
 }
 
-const getAddToDoListForm= function(input1,input2,fn){
+const getAddToDoItemForm= function(input1,title){
   let form =
-  `${input1}<input type="text" name="${input1}" value="">
-  ${input2}<input type="text" name="${input2}" value="">
-  <button type="button" onclick="fn()">${fn}</button>`;
+  `${input1}<input id="${title}text" type="text" name="${input1}" value="">
+  <button id="${title}" type="button" onclick="submitToDoItem(this.id)">submitToDoItem</button>`;
 return form;
+}
+
+const submitToDoItem = function(title){
+  let text = document.getElementById(`${title}text`).value;
+  let postData = `text=${text}`;
+  let xml = new XMLHttpRequest();
+  xml.open("POST","addToDoItem");
+  let reqListener = function(){
+    showToDo(title);
+  }
+  xml.addEventListener("load",reqListener);
+  xml.send(postData);
 }
 
 const addToDoList = function(title){
   let div = document.getElementsByClassName(`addToDoForm${title}`)[0];
-  div.innerHTML = getAddToDoListForm("title","description","submitToDo");
-}
-const submitToDo = function(){
-  let title = document.getElementsByName("title")[0].value;
-  let description = document.getElementsByName("description")[0].value;
-  let postData = `title=${title}&description=${description}`;
-  let xhr = new XMLHttpRequest();
-  xml.open("POST","showToDoList");
-  let reqListener = function(){
-    let responseText = JSON.parse(this.responseText);
-    let div = document
-  }
-  xml.addEventListener("load",reqListener);
-  xml.send(postData);
+  div.innerHTML = getAddToDoItemForm("text",title);
 }
 window.onload = function(){
   let xml = new XMLHttpRequest();
