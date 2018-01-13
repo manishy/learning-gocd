@@ -5,7 +5,7 @@ const assert = chai.assert;
 describe('todoList', () => {
     describe('adds a todoItem', () => {
         it('should add a todoItem to users list', (done) => {
-            let todoList = new ToDoList("at Home","just home stuffs");
+            let todoList = new ToDoList("at Home","just home stuffs",{});
             let todoItem = {text:"buy cloths"};
             todoList.addItem(todoItem);
             assert.exists(todoList.todoItems["buy cloths"])
@@ -31,7 +31,7 @@ describe('todoList', () => {
             let replacedItem = todoList.todoItems["buy cloths"];
             assert.notInclude(todoList.todoItems,replacedItem);
             done();
-        });        
+        });
     });
     describe.skip('sets status as done', () => {
         it('should set a status of given item as done ', (done) => {
@@ -41,6 +41,6 @@ describe('todoList', () => {
             todoList.done(todoItem);
             assert.isOk(todoList.isDone(todoItem));
             done();
-        });        
+        });
     });
 });

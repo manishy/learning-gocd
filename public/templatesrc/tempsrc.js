@@ -1,15 +1,24 @@
 const showToDo =(title)=>{
   let todoTitle = title;
   title = `title=${title}`;
-  let xml = new XMLHttpRequest();
-  xml.open("POST","showToDoList");
   let reqListener = function(){
     let allToDoItems = this.responseText;
     let div = document.getElementById(`${todoTitle}items`);
     div.innerHTML = allToDoItems;
 }
+let options = {
+  method:"POST",
+  url:"showToDoList",
+  data:title
+}
+doXmlReq(options,reqListener);
+}
+
+const doXmlReq = function(options,reqListener){
+  let xml = new XMLHttpRequest();
+  xml.open(options.method,options.url);
   xml.addEventListener("load",reqListener);
-  xml.send(title);
+  xml.send(options.data);
 }
 
 const getAddToDoItemForm= function(input1,title){
@@ -22,43 +31,83 @@ return form;
 const submitToDoItem = function(title){
   let text = document.getElementById(`${title}text`).value;
   let postData = `text=${text}&todoList=${title}`;
-  let xml = new XMLHttpRequest();
-  xml.open("POST","addToDoItem");
-  let reqListener = function(){
-    showToDo(title);
+  let options = {
+    method:"POST",
+    url:"addToDoItem",
+    data:postData
   }
-  xml.addEventListener("load",reqListener);
-  xml.send(postData);
+  doXmlReq(options,()=>{
+    showToDo(title);
+  });
 }
 
 const addToDoItem = function(title){
   let div = document.getElementsByClassName(`addToDoForm${title}`)[0];
-  if(!div.innerHTML==""){
-    div.innerHTML = "";
+  if(div.style.visibility=="visible"){
+    div.style.visibility="hidden";
     return;
   }
+  div.style.visibility="visible";
   div.innerHTML = getAddToDoItemForm("text",title);
 }
 
 const deleteToDoList = function(title){
   let postData = `title=${title}`;
-  let xml = new XMLHttpRequest();
-  xml.open("POST","deleteToDoList");
-  let reqListener = function(){
-    window.location.reload();
+  let options = {
+    method:"POST",
+    url:"deleteToDoList",
+    data:postData
   }
-  xml.addEventListener("load",reqListener);
-  xml.send(postData);
+  doXmlReq(options,()=>{
+    window.location.reload();
+  })
+}
+
+const getForm = function(inputs,title){
+  let form ="";
+  inputs.forEach(input=>{
+    form+=`${input}<input id="${title+input}" type="text" name="${input}" value="">`;
+  })
+  return form+`<button id="${title}" type="button" onclick="
+  edit(this.id)">edit</button>`;
+}
+
+const edit = function(title){
+  let newTitle =document.getElementById(`${title}title`).value;
+  let newDescription =document.getElementById(`${title}description`).value;
+  let postData = `previousTitle=${title}&newTitle=${newTitle}
+  &description=${newDescription}`;
+  const options = {
+    method:"POST",
+    url:"editToDoList",
+    data:postData
+  }
+  doXmlReq(options,()=>{
+    window.location.reload();
+  })
+}
+
+const editToDoList =function(title){
+  let form = getForm(["title","description"],title);
+  let div = document.getElementsByClassName(`addToDoForm${title}`)[0];
+  if(div.style.visibility=="visible"){
+    div.style.visibility="hidden";
+    return;
+  }
+  div.style.visibility="visible";
+  div.innerHTML = form;
 }
 
 window.onload = function(){
-  let xml = new XMLHttpRequest();
-  xml.open("GET","loadAllToDoList");
+  let options = {
+    method:"GET",
+    url:"loadAllToDoList",
+    data:""
+  }
   let reqListener = function(){
     let responseText = this.responseText;
     let div = document.getElementsByClassName("todoList")[0];
     div.innerHTML = responseText;
   }
-  xml.addEventListener("load",reqListener);
-  xml.send();
+  doXmlReq(options,reqListener);
 }

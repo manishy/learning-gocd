@@ -192,6 +192,15 @@ const deleteToDo = function(req,res){
   user.removeTodo(title);
   res.redirect("/home");
 }
+const editToDoList = function(req,res){
+  let oldTitle = req.body.previousTitle;
+  let newTitle = req.body.newTitle;
+  let description = req.body.description;
+  user.editTitleOf(oldTitle,newTitle,description);
+  console.log(user);
+  res.end();
+}
+app.post("/editToDoList",editToDoList)
 app.post("/deleteToDoList",deleteToDo)
 app.post("/addAToDoList",addToDoList);
 app.post("/showToDoList",showItemsOfParticularToDoList);

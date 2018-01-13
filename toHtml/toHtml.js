@@ -20,7 +20,8 @@ exports.getToDoList = (todoTitle)=>{
     <br>
     <div id="${todoTitle}items">
     </div>
-    <div class="addToDoForm${todoTitle}">
+    <div style="visibility=hidden"class="addToDoForm${todoTitle}">
+    <p><p>
     </div>
     <button id="${todoTitle}" onclick="showToDo(this.id)" name="button">view</button>
     <button id="${todoTitle}" onclick="addToDoItem(this.id)" name="button">addItem</button>
