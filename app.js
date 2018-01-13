@@ -161,9 +161,10 @@ const sentToDoList = (req,res)=>{
   res.write(JSON.stringify(contentToWrite));
   res.end();
 }
-const showParticularToDoList = function(req,res){
+const showItemsOfParticularToDoList = function(req,res){
   let titleOfToDoList = req.body.title;
-  let allToDoItems = user.getToDoItemsOf(titleOfToDoList).join("<br>");
+  let allToDoItems = user.getToDoItemsOf(titleOfToDoList);
+  allToDoItems = allToDoItems.map(toHtml.convertIntoListTag).join("<br>");
   allToDoItems = todoItemTemp.replace("todoItemsHolder",allToDoItems);
   res.setHeader("Content-Type","text/html");
   res.write(allToDoItems);
@@ -193,7 +194,7 @@ const deleteToDo = function(req,res){
 }
 app.post("/deleteToDoList",deleteToDo)
 app.post("/addAToDoList",addToDoList);
-app.post("/showToDoList",showParticularToDoList);
+app.post("/showToDoList",showItemsOfParticularToDoList);
 app.post("/addToDoItem",addToDoItem)
 app.get("/",redirectToIndexpage);
 app.get('/logout',logoutUser);
