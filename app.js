@@ -2,10 +2,10 @@ const webApp = require('./webApp.js');
 const fs = require('fs');
 let loginLink = `<a id="login" href="login">login to add todo</a>`
 const loginPage = fs.readFileSync("./public/login.html","utf8");
-const homePage = fs.readFileSync("./public/index.html","utf8");
+const homePage = fs.readFileSync("./templates/home.html","utf8");
 let todoListTemplate = fs.readFileSync("./templates/todoListTitle.html","utf8");
 let todoItemTemp = fs.readFileSync("./templates/todoItem.html","utf8");
-let addtodoForm = fs.readFileSync("./public/addToDoForm.html","utf8");
+let addtodoForm = fs.readFileSync("./templates/addToDoForm.html","utf8");
 const toHtml = require("./toHtml/toHtml.js");
 const user = require('./lib/todoHandler.js');
 let app = webApp.create();
