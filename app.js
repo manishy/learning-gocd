@@ -189,6 +189,21 @@ const editToDoList = function(req,res){
   user.editTitleOf(oldTitle,newTitle,description);
   res.end();
 }
+const markAsDone = function(req,res){
+  let title = req.body.title;
+  let item = req.body.item;
+  user.markAsDone(title,item);
+  res.end();
+}
+
+const markAsNotDone = function(req,res){
+  let title = req.body.title;
+  let item = req.body.item;
+  user.markAsNotDone(title,item);
+  res.end();
+}
+app.post("/markAsDone",markAsDone);
+app.post("/markAsNotDone",markAsNotDone);
 app.post("/editToDoList",editToDoList)
 app.post("/deleteToDoList",deleteToDo)
 app.post("/addAToDoList",addToDoList);

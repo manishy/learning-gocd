@@ -6,15 +6,17 @@ exports.convertIntoListTag = function(text){
 
 
 exports.toInputTag = function(title,toDoItem){
-    return `<input type="text" id=${toDoItem} ${title} disabled value="${toDoItem}"><br>`;
+  if(toDoItem.isDone()) {
+    return `<input type="text" class="strikethrough"id=${toDoItem} ${title} disabled value="${toDoItem.text}">`;
+  } 
+    return `<input type="text" id=${toDoItem} ${title} disabled value="${toDoItem.text}">`;
 }
 
 exports.item = (title,toDoItems)=>{
-  let items = Object.keys(toDoItems);
-  return items.map((item)=>{
+  return toDoItems.map((item)=>{
     let temp = exports.toInputTag(title,item);
     let htmlItem = itemTemp.replace(/item_Holder/,temp);
-    htmlItem = htmlItem.replace(/listAndItem/g,`${title}__${item}`);
+    htmlItem = htmlItem.replace(/listAndItem/g,`${title}__${item.text}`);
     return htmlItem;
   })
 }

@@ -98,6 +98,20 @@ const editToDoList =function(title){
   div.innerHTML = form;
 }
 
+const markAsNotDone = function(titleAndItem){
+  let title = titleAndItem.split("__")[0];
+  let item = titleAndItem.split("__")[1];
+  let postData = `title=${title}&item=${item}`;
+  const options = {
+    method:"POST",
+    url:"markAsNotDone",
+    data:postData
+  }
+  doXmlReq(options,()=>{
+    showToDo(title);
+  });
+}
+
 const markAsDone = function(titleAndItem){
   let title = titleAndItem.split("__")[0];
   let item = titleAndItem.split("__")[1];

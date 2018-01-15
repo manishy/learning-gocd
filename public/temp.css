@@ -2,3 +2,6 @@ button{
   height: 20px;
   width: 80px;
 }
+.strikethrough{
+  text-decoration: line-through;
+}
