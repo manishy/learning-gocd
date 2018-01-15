@@ -209,14 +209,14 @@ app.post("/deleteToDoList",deleteToDo)
 app.post("/addAToDoList",addToDoList);
 app.post("/showToDoList",showItemsOfParticularToDoList);
 app.post("/addToDoItem",addToDoItem)
+app.post('/login',postLogin);
 app.get("/",redirectToIndexpage);
 app.get('/logout',logoutUser);
-app.post('/login',postLogin);
 app.get('/login',getLogin);
 app.get('/home',homePageHandler);
+app.get("/loadAllToDoList",sendToDoList);
 app.use(logRequest);
 app.use(loadUser);
 app.addPostProcessor(fileServer);
 app.addPostProcessor(requestNotFound);
-app.get("/loadAllToDoList",sendToDoList);
 module.exports = app;
