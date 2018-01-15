@@ -1,18 +1,7 @@
-const generatePara = function(text){
-    return `<p>${text}</p>`;
-}
-
 exports.convertIntoListTag = function(text){
   return `<li>${text}</li>`
 }
 
-const generateToDoListOf = (user)=>{
-    let titles = user.getTodoTitles();
-    let html = titles.map(title=>{
-        return generatePara(title);
-    })
-    return html.join("<br>");
-}
 
 exports.toInputTag = function(toDoItem){
     return `<input type="text" name="${toDoItem}" disabled value="${toDoItem}"><br>`;
@@ -35,5 +24,3 @@ exports.getToDoList = (todoTitle)=>{
     </div>`;
     return todo;
   }
-
-exports.generateToDoListOf = generateToDoListOf;
