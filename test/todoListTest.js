@@ -10,7 +10,8 @@ describe('todoList', () => {
             let todoList = new ToDoList("at Home","just home stuffs",{});
             let todoItem = {text:"buy cloths"};
             todoList.addItem(todoItem);
-            assert.exists(todoList.todoItems["buy cloths"])
+            let items = todoList.getAllToDoItemText();
+            assert.include(items,"buy cloths");
             done();
         });
     });
@@ -19,7 +20,7 @@ describe('todoList', () => {
             let todoList = new ToDoList("at Home","just home stuffs");
             let todoItem = {text:"buy cloths"};
             todoList.addItem(todoItem);
-            todoList.removeTodoItem(todoItem);
+            todoList.removeTodoItem(todoItem.text);
             assert.notExists(todoList.todoItems["at Home"]);
             done();
         });

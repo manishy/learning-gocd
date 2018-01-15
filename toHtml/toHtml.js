@@ -1,10 +1,22 @@
+const fs = require("fs");
+const itemTemp = fs.readFileSync("templates/todoItem.html","utf8");
 exports.convertIntoListTag = function(text){
   return `<li>${text}</li>`
 }
 
 
-exports.toInputTag = function(toDoItem){
-    return `<input type="text" name="${toDoItem}" disabled value="${toDoItem}"><br>`;
+exports.toInputTag = function(title,toDoItem){
+    return `<input type="text" id=${toDoItem} ${title} disabled value="${toDoItem}"><br>`;
+}
+
+exports.item = (title,toDoItems)=>{
+  let items = Object.keys(toDoItems);
+  return items.map((item)=>{
+    let temp = exports.toInputTag(title,item);
+    let htmlItem = itemTemp.replace(/item_Holder/,temp);
+    htmlItem = htmlItem.replace(/listAndItem/g,`${title}__${item}`);
+    return htmlItem;
+  })
 }
 
 exports.getToDoList = (todoTitle)=>{

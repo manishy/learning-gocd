@@ -18,18 +18,16 @@ describe('user', () => {
             let user = new User("ashish");
             let newTodo = new ToDoList("at Home","some home stuff")
             user.addTodo("at Home","some home stuff");
-            let todos = user.todos["at Home"];
-            assert.deepEqual(todos,newTodo);
+            assert.include(user.getTodoTitles(),"at Home");
             done();
         });
         it('should remove a todolist from users list of todos ', (done) => {
             let user = new User("ashish");
             let newTodo = new ToDoList("at Home","some home stuffs")
             user.addTodo("at Home","some home stuffs");
-            let todos = user.todos["at Home"];
-            assert.deepEqual(todos,newTodo);
+            assert.include(user.getTodoTitles(),"at Home");
             user.removeTodo("at Home");
-            assert.notExists(user.todos["at Home"]);
+            assert.notInclude(user.getTodoTitles(),"at Home");
             done();
         });
         it('should get all titles todo list of user', (done) => {
@@ -47,7 +45,7 @@ describe('user', () => {
             user.addTodoItem("do","at Home");
             user.addTodoItem("dont do","at Home");
             let allToDoItem = ["do","dont do"];
-            assert.deepEqual(user.getToDoItemsOf("at Home"),allToDoItem);
+            assert.deepEqual(user.getToDoItemsTextOf("at Home"),allToDoItem);
             done();
         });
     });
