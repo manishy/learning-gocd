@@ -1,6 +1,6 @@
 const fs = require("fs");
-const itemTemp = fs.readFileSync("templates/todoItem.html","utf8");
-const todoTitle = fs.readFileSync("templates/todoTitle.html","utf8");
+const itemTemp = fs.readFileSync("templates/todoItem","utf8");
+const todoTitle = fs.readFileSync("templates/todoTitle","utf8");
 exports.convertIntoListTag = function(text){
   return text;
 }
