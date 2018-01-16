@@ -38,16 +38,18 @@ describe('app', () => {
         })
         done();
         })
-        it('serves the login page with message for a failed login',done=>{
-          request(app,{method:'GET',url:'/login.html',headers:{'cookie':'message=login failed'}},res=>{
-            th.status_is_ok(res);
-            th.body_contains(res,'User Name:');
-            th.body_contains(res,'login failed');
-            th.should_not_have_cookie(res,'message');
-        })
-        done();
-        })
       })
+        describe('GET /login.html', () => {
+          it('serves the login page with message for a failed login',done=>{
+            request(app,{method:'GET',url:'/login.html',headers:{'cookie':'message=login failed'}},res=>{
+              th.status_is_ok(res);
+              th.body_contains(res,'User Name:');
+              th.body_contains(res,'login failed');
+              th.should_not_have_cookie(res,'message');
+          })
+          done();
+          })
+        });
       describe('POST /login',()=>{
         it('redirects to home for valid user',done=>{
           request(app,{method:'POST',url:'/login',body:'userName=ashishm'},res=>{
@@ -56,6 +58,8 @@ describe('app', () => {
         })
         done();
         })
+      })
+      describe('POST /login', () => {
         it('redirects to login.html with message for invalid user',done=>{
           request(app,{method:'POST',url:'/login',body:'username=badUser'},res=>{
             th.should_be_redirected_to(res,'/login');
@@ -63,15 +67,15 @@ describe('app', () => {
         })
         done();
         })
-      })
+      });
       describe('GET /logout',()=>{
         it('serves the home page and login link',done=>{
           request(app,{method:'GET',url:'/home'},res=>{
             th.status_is_ok(res);
             th.body_contains(res,`href="login">login to add todo`);
             th.body_does_not_contain(res,'login failed');
+            done();
         })
-        done();
         })
     })
     describe('GET /home', () => {
@@ -82,7 +86,38 @@ describe('app', () => {
           th.status_is_ok(res);
           th.body_contains(res,"Logout");
           done();
+          delete process.env.DUMMY
         })
       });
     });
+    describe('GET /staticFiles', () => {
+      it('should give script files when asked for', (done) => {
+        request(app, { method: "GET", url: "/templatesrc/tempsrc.js" }, res => {
+          th.status_is_ok(res);
+          th.body_contains(res, "new XMLHttpRequest()");
+          done();
+        })
+      });
+    })
+    describe('GET /css', () => {
+      it('should serve css files when asked for ', (done) => {
+        request(app, { method: "GET", url: "/css/main.css" }, res => {
+          th.status_is_ok(res);
+          th.body_contains(res, "margin-left: 900px;");
+          done();
+        })
+      });
+  });
+  describe('GET /loadAllToDoList', () => {
+    it('should give all the todo list of logged in user', (done) => {
+      process.env.DUMMY = 100;
+      let headers = { cookie: "sessionid=100" }
+      request(app, { method: "GET", url: "/loadAllToDoList", headers: headers }, res => {
+        th.status_is_ok(res);
+        th.body_contains(res, "todo at home");
+        done();
+        delete process.env.DUMMY
+      })
+    });
+  });
 });

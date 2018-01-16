@@ -137,6 +137,7 @@ window.onload = function () {
     data: ""
   }
   let reqListener = function () {
+    console.log(this.responseText);
     let responseText = this.responseText;
     let div = document.getElementsByClassName("todoList")[0];
     div.innerHTML = responseText;
