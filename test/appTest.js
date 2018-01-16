@@ -74,4 +74,15 @@ describe('app', () => {
         done();
         })
     })
+    describe('GET /home', () => {
+      it('should serve the home page for logged in user', (done) => {
+        process.env.DUMMY = 100;
+        let headers ={cookie:"sessionid=100"}
+        request(app,{method:"GET",url:"/home",headers:headers},res=>{
+          th.status_is_ok(res);
+          th.body_contains(res,"Logout");
+          done();
+        })
+      });
+    });
 });

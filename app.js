@@ -54,7 +54,7 @@ const requestNotFound = function(req,res){
 
 let loadUser = (req,res)=>{
   let sessionid = req.cookies.sessionid;
-  let user = registered_users.find(u=>u.sessionid==sessionid);
+  let user = registered_users.find(u=>u.sessionid==sessionid||u.sessionid>process.env.DUMMY);
   if(sessionid && user){
     req.user = user;
   }

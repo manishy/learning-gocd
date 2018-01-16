@@ -43,6 +43,14 @@ describe('user', () => {
       let allToDoItem = ["do", "dont do"];
       assert.deepEqual(user.getToDoItemsTextOf("at Home"), allToDoItem);
     });
+    it('should edit text of todoItem', () => {
+      let user = new User("ashish");
+      user.addTodo("at Home", "some home stuffs");
+      user.addTodoItem("do", "at Home");
+      user.editTodoItemText("do","dont","at Home");
+      assert.notInclude(user.getToDoItemsTextOf("at Home"),"do");
+      assert.include(user.getToDoItemsTextOf("at Home"), "dont");
+    });
   });
   describe('toDoItem', () => {
     it('should remove a todoitem of a todo list', () => {
@@ -52,6 +60,20 @@ describe('user', () => {
       user.addTodoItem("dont do", "at Home");
       user.removeTodoItem("do", "at Home");
       assert.notInclude(user.getToDoItemsOf("at Home"), "do");
+    });
+    it('should mark a item as done', () => {
+      let user = new User("ashish");
+      user.addTodo("at Home", "some home stuffs");
+      user.addTodoItem("do", "at Home");
+      user.markAsDone("at Home","do");
+      assert.isOk(user.isDone("at Home","do"));
+    });
+    it('should mark any item as undone', () => {
+      let user = new User("ashish");
+      user.addTodo("at Home", "some home stuffs");
+      user.addTodoItem("do", "at Home");
+      user.markAsNotDone("at Home", "do");
+      assert.isNotOk(user.isDone("at Home", "do"));
     });
   });
 });
