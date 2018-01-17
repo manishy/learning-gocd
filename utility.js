@@ -62,7 +62,7 @@ exports.requestNotFound = function(req, res) {
 
 exports.loadUser = (req, res) => {
   let sessionid = req.cookies.sessionid;
-  let user = registered_users.find(u => u.sessionid == sessionid || u.sessionid > process.env.DUMMY);
+  let user = registered_users.find(u => u.sessionid == sessionid);
   if (sessionid && user) {
     req.user = user;
   }
