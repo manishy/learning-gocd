@@ -29,15 +29,14 @@ class ToDoActionHandler extends DefaultHandler {
   execute(req, res) {
     if (!this.valid(req)) return
     let action = actions[req.url];
-    action.call(this,req,res);
+    action.call(this, req, res);
   }
 }
 
 let actions = {
   "/showToDoItems": function (req, res) {
-    let todoApp = this.app;
     let userName = req.user.userName;
-    let user = todoApp.users[userName];
+    let user = this.app.getUser(userName);
     let titleOfToDoList = req.body.title;
     let allToDoItems = user.getToDoItemsOf(titleOfToDoList);
     allToDoItems = toHtml.item(titleOfToDoList, allToDoItems);
@@ -48,9 +47,8 @@ let actions = {
     res.end();
   },
   "/addToDoItem": function (req, res) {
-    let todoApp = this.app;
     let userName = req.user.userName;
-    let user = todoApp.users[userName];
+    let user = this.app.getUser(userName);
     let todoItem = req.body.text;
     let todoList = req.body.todoList;
     user.addTodoItem(todoItem, todoList);
@@ -58,24 +56,22 @@ let actions = {
     res.end();
   },
   "/addAToDoList": function (req, res) {
-    let todoApp = this.app;
     let userName = req.user.userName;
-    let user = todoApp.users[userName];
+    let user = this.app.getUser(userName);
     let title = req.body.title;
     let description = req.body.description;
     user.addTodo(title, description);
     res.redirect("/home");
   },
   "/deleteToDoList": function (req, res) {
-    let todoApp = this.app;
     let userName = req.user.userName;
-    let user = todoApp.users[userName];
+    let user = this.app.getUser(userName);
     let title = req.body.title;
     user.removeTodo(title);
     res.end();
     // res.redirect("/home");
   },
-  "/loadAllToDoList":function(req, res){
+  "/loadAllToDoList": function (req, res) {
     if (req.user) {
       let todoApp = this.app;
       let userName = req.user.userName;
@@ -90,9 +86,8 @@ let actions = {
     }
   },
   "/editToDoList": function (req, res) {
-    let todoApp = this.app;
     let userName = req.user.userName;
-    let user = todoApp.users[userName];
+    let user = this.app.getUser(userName);
     let oldTitle = req.body.previousTitle;
     let newTitle = req.body.newTitle;
     let description = req.body.description;
@@ -103,18 +98,16 @@ let actions = {
     res.end();
   },
   "/markAsDone": function (req, res) {
-    let todoApp = this.app;
     let userName = req.user.userName;
-    let user = todoApp.users[userName];
+    let user = this.app.getUser(userName);
     let title = req.body.title;
     let item = req.body.item;
     user.markAsDone(title, item);
     res.end();
   },
   "/markAsNotDone": function (req, res) {
-    let todoApp = this.app;
     let userName = req.user.userName;
-    let user = todoApp.users[userName];
+    let user = this.app.getUser(userName);
     let title = req.body.title;
     let item = req.body.item;
     user.markAsNotDone(title, item);

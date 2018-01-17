@@ -1,17 +1,16 @@
 const fs = require('fs');
-const homePage = fs.readFileSync("./templates/home", "utf8");
-let todoListTemplate = fs.readFileSync("./templates/todoListTitle", "utf8");
-let addtodoForm = fs.readFileSync("./templates/addToDoForm", "utf8");
+exports.getContent = function (path) {
+  return fs.readFileSync(path, "utf8");
+}
+const homePage = exports.getContent("./templates/home");
+let todoListTemplate = exports.getContent("./templates/todoListTitle");
+let addtodoForm = exports.getContent("./templates/addToDoForm");
+
 let toS = o => JSON.stringify(o, null, 2);
-let data = fs.readFileSync("data/data.json", "utf8");
+let data = exports.getContent("data/data.json");
 let ToDoApp = require("./lib/userHandler.js");
 let todoApp = new ToDoApp();
 todoApp.retrive(data);
-
-let registered_users = [{
-  userName: 'ashishm',
-  name: 'ashish mahindrakar'
-}];
 
 exports.updateDB = function(){
   let dataBase = JSON.stringify(todoApp,null,2);
@@ -63,29 +62,11 @@ exports.logoutUser = function(req, res) {
   res.redirect('/home');
 }
 
-exports.homePageHandler = function(req, res) {
-  if (req.user) {
-    let userName = req.user.userName;
-    let user = todoApp.users[userName];
-    let content = generateHomePageFor(user);
-    res.setHeader("Content-Type", "text/html");
-    res.write(content);
-    res.end();
-  } else {
-    let loginLink = `<a id="login" href="login">login to add todo</a>`;
-    let content = homePage.replace("placeHolder", loginLink);
-    content = content.replace("name", "");
-    content = content.replace("home/logout", "");
-    content = content.replace("addAToDo", "");
-    res.write(content);
-    res.end();
-  }
-}
 exports.fileServer = function(req, res) {
   let path = 'public' + req.url;
   if (isGetRequest(req)) {
     try {
-      let data = fs.readFileSync(path);
+      let data = exports.getContent(path);
       res.setHeader("Content-Type", getContentType(path));
       res.statusCode = 200;
       res.write(data);
@@ -96,13 +77,18 @@ exports.fileServer = function(req, res) {
   };
 }
 
-const generateHomePageFor = (user) => {
-  let content = homePage.replace("placeHolder", todoListTemplate);
-  content = content.replace("name", user.name);
-  let logout = `<a href="logout"> Logout </a>`
-  content = content.replace("home/logout", logout);
-  content = content.replace("addAToDo", addtodoForm);
+exports.replace = function (content, newContents) {
+  let oldContents = ["placeHolder", "name", "home/logout", "addAToDo"];
+  oldContents.forEach((element, index) => {
+    content= content.replace(element, newContents[index]);
+  });
   return content;
+}
+
+exports.generateHomePageFor = (user) => {
+  let logout = `<a href="logout"> Logout </a>`;
+  let html = exports.replace(homePage,[todoListTemplate,user.name,logout,addtodoForm]);
+  return html;
 }
 
 exports.redirectToIndexpage = function(req, res) {

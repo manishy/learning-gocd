@@ -91,6 +91,7 @@ const edit = function (title) {
     let oldDiv = document.getElementById(title);
     let parentOfOld = oldDiv.parentElement;
     let newDiv = this.responseText;
+    console.log(parentOfOld);
     parentOfOld.innerHTML=newDiv;
   })
 }
@@ -142,7 +143,6 @@ window.onload = function () {
   }
   let reqListener = function () {
     let responseText = this.responseText;
-    console.log(responseText);
     let div = document.getElementsByClassName("todoList")[0];
     div.innerHTML = responseText;
   }
