@@ -187,6 +187,10 @@ exports.addToDoList = function(req, res) {
   let title = req.body.title;
   let description = req.body.description;
   user.addTodo(title, description);
+  // let html = toHtml.getToDoList(title);
+  // res.setHeader("Content-Type", "text/html");
+  // res.write(html);
+  // res.end();
   res.redirect("/home");
 }
 
@@ -195,7 +199,8 @@ exports.deleteToDo = function(req, res) {
   let user = todoApp.users[userName];
   let title = req.body.title;
   user.removeTodo(title);
-  res.redirect("/home");
+  res.end();
+  // res.redirect("/home");
 }
 exports.editToDoList = function(req, res) {
   let userName = req.user.userName;
@@ -204,6 +209,9 @@ exports.editToDoList = function(req, res) {
   let newTitle = req.body.newTitle;
   let description = req.body.description;
   user.editTitleOf(oldTitle, newTitle, description);
+  let html = toHtml.getToDoList(newTitle);
+  res.setHeader("Content-Type","text/html");
+  res.write(html);
   res.end();
 }
 exports.markAsDone = function(req, res) {

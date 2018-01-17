@@ -12,7 +12,7 @@ const showToDo = (title, force = false) => {
   }
   let options = {
     method: "POST",
-    url: "showToDoList",
+    url: "showToDoItems",
     data: title
   }
   doXmlReq(options, reqListener);
@@ -63,7 +63,8 @@ const deleteToDoList = function (title) {
     data: postData
   }
   doXmlReq(options, () => {
-    window.location.reload();
+    let divToDelet = document.getElementById(title);
+    divToDelet.remove();
   })
 }
 
@@ -86,8 +87,11 @@ const edit = function (title) {
     url: "editToDoList",
     data: postData
   }
-  doXmlReq(options, () => {
-    window.location.reload();
+  doXmlReq(options, function(){
+    let oldDiv = document.getElementById(title);
+    let parentOfOld = oldDiv.parentElement;
+    let newDiv = this.responseText;
+    parentOfOld.innerHTML=newDiv;
   })
 }
 
@@ -137,7 +141,6 @@ window.onload = function () {
     data: ""
   }
   let reqListener = function () {
-    console.log(this.responseText);
     let responseText = this.responseText;
     let div = document.getElementsByClassName("todoList")[0];
     div.innerHTML = responseText;

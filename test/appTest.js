@@ -173,4 +173,69 @@ describe('app', () => {
       })
     });
   });
+  describe('POST /addAToDoList', () => {
+    it('should add a todo list to logged in user', (done) => {
+      let headers = {
+        cookie: "sessionid=100"
+      }
+      let user = {
+        userName: 'ashishm',
+        name: 'ashish mahindrakar',
+      }
+      request(app, {
+        method: "POST",
+        url: "/addAToDoList",
+        user: user,
+        headers: headers,
+        body:"title=sample&description=sample"
+      }, res => {
+        th.should_be_redirected_to(res,"/home")
+        done();
+      })
+    });
+  });
+  describe('POST /showToDoItems', () => {
+    it('should give back all the todo items of a title given', (done) => {
+      let headers = {
+        cookie: "sessionid=100"
+      }
+      let user = {
+        userName: 'ashishm',
+        name: 'ashish mahindrakar',
+      }
+      request(app, {
+        method: "POST",
+        url: "/showToDoItems",
+        user: user,
+        headers: headers,
+        body: "title=office"
+      }, res => {
+        th.status_is_ok(res);
+        th.body_contains(res,"file sign")
+        done();
+      })
+    });
+  });
+  describe('POST /showToDoItems', () => {
+    it('should give back all the todo items of a title given', (done) => {
+      let headers = {
+        cookie: "sessionid=100"
+      }
+      let user = {
+        userName: 'ashishm',
+        name: 'ashish mahindrakar',
+      }
+      request(app, {
+        method: "POST",
+        url: "/showToDoItems",
+        user: user,
+        headers: headers,
+        body: "title=office"
+      }, res => {
+        th.status_is_ok(res);
+        th.body_contains(res, "file sign")
+        done();
+      })
+    });
+  });
 });

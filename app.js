@@ -7,7 +7,7 @@ app.post("/markAsNotDone", utility.markAsNotDone);
 app.post("/editToDoList", utility.editToDoList)
 app.post("/deleteToDoList", utility.deleteToDo)
 app.post("/addAToDoList", utility.addToDoList);
-app.post("/showToDoList", utility.showItemsOfParticularToDoList);
+app.post("/showToDoItems", utility.showItemsOfParticularToDoList);
 app.post("/addToDoItem", utility.addToDoItem)
 app.post('/login', utility.postLogin);
 app.get("/", utility.redirectToIndexpage);
