@@ -152,90 +152,81 @@ describe('app', () => {
       })
     });
   });
-  describe('GET /loadAllToDoList', () => {
-    it('should give all the todo list of logged in user', (done) => {
-      let headers = {
+  describe('todoActions', () => {
+    beforeEach(() => {
+      headers = {
         cookie: "sessionid=100"
       }
-      let user = {
+      user = {
         userName: 'ashishm',
         name: 'ashish mahindrakar',
       }
-      request(app, {
-        method: "GET",
-        url: "/loadAllToDoList",
-        user:user,
-        headers: headers
-      }, res => {
-        th.status_is_ok(res);
-        th.body_contains(res, "todo at home");
-        done();
-      })
+      options = {
+        method:"POST",
+        url:"",
+        headers:headers,
+        user:user
+      }
     });
-  });
-  describe('POST /addAToDoList', () => {
-    it('should add a todo list to logged in user', (done) => {
-      let headers = {
-        cookie: "sessionid=100"
-      }
-      let user = {
-        userName: 'ashishm',
-        name: 'ashish mahindrakar',
-      }
-      request(app, {
-        method: "POST",
-        url: "/addAToDoList",
-        user: user,
-        headers: headers,
-        body:"title=sample&description=sample"
-      }, res => {
-        th.should_be_redirected_to(res,"/home")
-        done();
-      })
+    describe('POST /loadAllToDoList', () => {
+      it('should give all the todo list of logged in user', (done) => {
+        options.method = "POST"
+        options.url = "/loadAllToDoList"
+        request(app,options, res => {
+          // console.log(res);
+          th.status_is_ok(res);
+          th.body_contains(res, `name="button">view</button>`);
+          done();
+        })
+      });
     });
-  });
-  describe('POST /showToDoItems', () => {
-    it('should give back all the todo items of a title given', (done) => {
-      let headers = {
-        cookie: "sessionid=100"
-      }
-      let user = {
-        userName: 'ashishm',
-        name: 'ashish mahindrakar',
-      }
-      request(app, {
-        method: "POST",
-        url: "/showToDoItems",
-        user: user,
-        headers: headers,
-        body: "title=office"
-      }, res => {
-        th.status_is_ok(res);
-        th.body_contains(res,"file sign")
-        done();
-      })
+    describe('POST /addAToDoList', () => {
+      it('should add a todo list to logged in user', (done) => {
+        options.method="POST";
+        options.url="/addAToDoList";
+        options.body="title=school&description=school";
+        request(app,options, res => {
+          th.should_be_redirected_to(res,"/home")
+          done();
+        })
+      });
     });
-  });
-  describe('POST /showToDoItems', () => {
-    it('should give back all the todo items of a title given', (done) => {
-      let headers = {
-        cookie: "sessionid=100"
-      }
-      let user = {
-        userName: 'ashishm',
-        name: 'ashish mahindrakar',
-      }
-      request(app, {
-        method: "POST",
-        url: "/showToDoItems",
-        user: user,
-        headers: headers,
-        body: "title=office"
-      }, res => {
-        th.status_is_ok(res);
-        th.body_contains(res, "file sign")
-        done();
-      })
+    describe('POST /showToDoItems', () => {
+      it('should give back all the todo items of a title given', (done) => {
+        options.method="POST";
+        options.url="/showToDoItems";
+        options.body = "title=office";
+        request(app,options, res => {
+          th.status_is_ok(res);
+          th.body_contains(res,"file sign")
+          done();
+        })
+      });
     });
+    describe('POST /showToDoItems', () => {
+      it('should give back all the todo items of a title given', (done) => {
+        options.method="POST";
+        options.url="/showToDoItems";
+        options.body = "title=office";
+        request(app,options, res => {
+          th.status_is_ok(res);
+          th.body_contains(res, "file sign")
+          done();
+        })
+      });
+    });
+    describe('POST /editToDoList', () => {
+      it('should edit todoList ', (done) => {
+        options.method="POST";
+        options.url="/editToDoList";
+        options.body = `previousTitle=office&newTitle=school
+    &description=schoolwork`
+        request(app,options, res => {
+          th.status_is_ok(res);
+          th.body_contains(res, "school")
+          done();
+        })
+      });
+    });  
   });
 });

@@ -136,12 +136,13 @@ const markAsDone = function (titleAndItem) {
 
 window.onload = function () {
   let options = {
-    method: "GET",
+    method: "POST",
     url: "loadAllToDoList",
     data: ""
   }
   let reqListener = function () {
     let responseText = this.responseText;
+    console.log(responseText);
     let div = document.getElementsByClassName("todoList")[0];
     div.innerHTML = responseText;
   }
