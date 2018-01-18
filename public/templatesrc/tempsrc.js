@@ -89,10 +89,9 @@ const edit = function (title) {
   }
   doXmlReq(options, function(){
     let oldDiv = document.getElementById(title);
-    let parentOfOld = oldDiv.parentElement;
-    let newDiv = this.responseText;
-    console.log(parentOfOld);
-    parentOfOld.innerHTML=newDiv;
+    let html = this.responseText;
+    oldDiv.id=newTitle;
+    oldDiv.innerHTML = html;
   })
 }
 
@@ -156,7 +155,7 @@ const editItem = function(titleAndItem){
   let divToEdit = document.getElementsByName(`${item}_${title}`)[0];
   divToEdit.disabled=false;
   divToEdit.focus();
-  let editButton = document.getElementsByName("edit")[0]
+  let editButton = document.getElementsByName(`edit${titleAndItem}`)[0]
   editButton.innerText="submit";
   editButton.onclick=()=>{
     let newText = divToEdit.value;

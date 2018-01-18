@@ -2,6 +2,6 @@
   item_Holder
   <button id="listAndItem" onclick="markAsDone(this.id)" name="done">done</button>
   <button id="listAndItem" onclick="markAsNotDone(this.id)" name="undone">undone</button>
-  <button id="listAndItem" onclick="editItem(this.id)" name="edit">edit</button>
+  <button id="listAndItem" onclick="editItem(this.id)" name="editlistAndItem">edit</button>
   <button id="listAndItem" onclick="deleteItem(this.id)" name="delete">delete</button>
 </div>
