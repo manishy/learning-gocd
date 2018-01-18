@@ -17,10 +17,6 @@ exports.updateDB = function(){
   fs.writeFileSync("data/data.json",dataBase);
 }
 
-const isGetRequest = function(req) {
-  return req.method == "GET";
-}
-
 const getContentType = function(filePath) {
   let contentTypes = {
     '.js': 'text/javascript',
@@ -60,21 +56,6 @@ exports.logoutUser = function(req, res) {
   res.setHeader('Set-Cookie', [`message=login failed; Max-Age=5`, `sessionid=0;Max-Age=5`]);
   if (req.user) delete req.user.sessionid;
   res.redirect('/home');
-}
-
-exports.fileServer = function(req, res) {
-  let path = 'public' + req.url;
-  if (isGetRequest(req)) {
-    try {
-      let data = exports.getContent(path);
-      res.setHeader("Content-Type", getContentType(path));
-      res.statusCode = 200;
-      res.write(data);
-      res.end()
-    } catch (e) {
-      return;
-    };
-  };
 }
 
 exports.replace = function (content, newContents) {

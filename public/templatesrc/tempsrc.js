@@ -134,6 +134,34 @@ const markAsDone = function (titleAndItem) {
     showToDo(title, true);
   });
 }
+// const editItem = function(titleAndItem){
+//   let title = titleAndItem.split("__")[0];
+//   let item = titleAndItem.split("__")[1];
+//   let postData = `title=${title}&item=${item}`;
+//   const options = {
+//     method: "POST",
+//     url: "edit",
+//     data: postData
+//   }
+//   doXmlReq(options, () => {
+//     showToDo(title, true);
+//   });
+// }
+
+const deleteItem = function(titleAndItem){
+  let title = titleAndItem.split("__")[0];
+  let item = titleAndItem.split("__")[1];
+  let postData = `title=${title}&item=${item}`;
+  const options = {
+    method: "POST",
+    url: "deleteItem",
+    data: postData
+  }
+  doXmlReq(options, () => {
+    let divToDelet = document.getElementsByClassName(titleAndItem)[0];
+    divToDelet.remove();
+  });
+}
 
 window.onload = function () {
   let options = {

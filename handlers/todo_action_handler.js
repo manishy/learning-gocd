@@ -20,7 +20,8 @@ class ToDoActionHandler extends DefaultHandler {
       "/addAToDoList",
       "/showToDoItems",
       "/addToDoItem",
-      "/loadAllToDoList"
+      "/loadAllToDoList",
+      "/deleteItem"
     ]
   }
   valid(req) {
@@ -69,7 +70,6 @@ let actions = {
     let title = req.body.title;
     user.removeTodo(title);
     res.end();
-    // res.redirect("/home");
   },
   "/loadAllToDoList": function (req, res) {
     if (req.user) {
@@ -111,6 +111,21 @@ let actions = {
     let title = req.body.title;
     let item = req.body.item;
     user.markAsNotDone(title, item);
+    res.end();
+  },
+  "/editTodoItem":function(req,res){
+    // let userName = req.user.userName;
+    // let user = this.app.getUser(userName);
+    // let title = req.body.title;
+    // let item = req.body.item;
+    // user.markAsNotDone(title, item);
+  },
+  "/deleteItem":function(req,res){
+    let userName = req.user.userName;
+    let user = this.app.getUser(userName);
+    let title = req.body.title;
+    let item = req.body.item;
+    user.removeTodoItem(item,title);
     res.end();
   }
 }
