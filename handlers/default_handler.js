@@ -22,3 +22,8 @@ class DefaultHandler {
 }
 
 module.exports = DefaultHandler
+
+
+// e GO_SERVER
+
+// docker container run -e GO_SERVER=172.17.0.2 gocd/gocd-agent-alpine-3.8:v19.1.0
