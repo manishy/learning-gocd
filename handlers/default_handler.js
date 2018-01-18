@@ -1,5 +1,8 @@
 const fs = require("fs");
-let data = fs.readFileSync("data/data.json", "utf8");
+let realTimePath = "./data/data.json";
+let testPath = process.env.TESTPATH;
+let path = testPath || realTimePath;
+let data = fs.readFileSync(path, "utf8");
 let ToDoApp = require("../lib/userHandler.js");
 let todoApp = new ToDoApp();
 todoApp.retrive(data);

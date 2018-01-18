@@ -109,6 +109,7 @@ const editToDoList = function (title) {
 const markAsNotDone = function (titleAndItem) {
   let title = titleAndItem.split("__")[0];
   let item = titleAndItem.split("__")[1];
+  let divToEdit = document.getElementsByName(`${item}_${title}`)[0];
   let postData = `title=${title}&item=${item}`;
   const options = {
     method: "POST",
@@ -116,13 +117,14 @@ const markAsNotDone = function (titleAndItem) {
     data: postData
   }
   doXmlReq(options, () => {
-    showToDo(title, true);
+    divToEdit.className="";
   });
 }
 
 const markAsDone = function (titleAndItem) {
   let title = titleAndItem.split("__")[0];
   let item = titleAndItem.split("__")[1];
+  let divToEdit = document.getElementsByName(`${item}_${title}`)[0];
   let postData = `title=${title}&item=${item}`;
   const options = {
     method: "POST",
@@ -130,7 +132,7 @@ const markAsDone = function (titleAndItem) {
     data: postData
   }
   doXmlReq(options, () => {
-    showToDo(title, true);
+    divToEdit.className="strikethrough";
   });
 }
 

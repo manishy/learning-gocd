@@ -30,7 +30,10 @@ class ToDoActionHandler extends DefaultHandler {
   }
   updateDB() {
     let dataBase = JSON.stringify(this.app,null,2);
-    fs.writeFileSync("./data/data.json", dataBase);
+    let realTimePath = "./data/data.json";
+    let testPath = process.env.TESTPATH;
+    let path = testPath || realTimePath;
+    fs.writeFileSync(path, dataBase);
   }
   execute(req, res) {
     if (!this.valid(req)) return

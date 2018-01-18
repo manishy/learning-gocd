@@ -1,4 +1,5 @@
 let th = require("./testFrame/testHelper.js");
+process.env.TESTPATH = "./test/testdata.json";
 let app = require("../app.js");
 let request = require("./testFrame/requestSimulator.js");
 const chai = require('chai');
@@ -202,18 +203,6 @@ describe('app', () => {
         })
       });
     });
-    describe('POST /showToDoItems', () => {
-      it('should give back all the todo items of a title given', (done) => {
-        options.method="POST";
-        options.url="/showToDoItems";
-        options.body = "title=office";
-        request(app,options, res => {
-          th.status_is_ok(res);
-          th.body_contains(res, "file sign")
-          done();
-        })
-      });
-    });
     describe('POST /editToDoList', () => {
       it('should edit todoList ', (done) => {
         options.method="POST";
@@ -228,4 +217,5 @@ describe('app', () => {
       });
     });
   });
+  delete process.env.TESTPATH;
 });

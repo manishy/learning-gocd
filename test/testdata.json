@@ -1,0 +1,45 @@
+{
+  "users": {
+    "ashishm": {
+      "name": "ashishm",
+      "todos": [
+        {
+          "title": "test\n  ",
+          "description": "testing uniq",
+          "todoItems": [
+            {
+              "text": "buy clohts",
+              "status": false
+            }
+          ]
+        },
+        {
+          "title": "office",
+          "description": "schoolwork",
+          "todoItems": [
+            {
+              "text": "pay clerk",
+              "status": false
+            },
+            {
+              "text": "file sign",
+              "status": false
+            }
+          ]
+        },
+        {
+          "title": "school",
+          "description": "school",
+          "todoItems": []
+        }
+      ]
+    }
+  },
+  "registered_users": [
+    {
+      "userName": "ashishm",
+      "name": "ashish mahindrakar",
+      "sessionid": 1516267172831
+    }
+  ]
+}
