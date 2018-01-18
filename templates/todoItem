@@ -1,7 +1,7 @@
 <div class="listAndItem">
   item_Holder
-  <button id="listAndItem" onclick="markAsDone(this.id)" name="button">done</button>
-  <button id="listAndItem" onclick="markAsNotDone(this.id)" name="button">undone</button>
-  <button id="listAndItem" onclick="editItem(this.id)" name="button">edit</button>
-  <button id="listAndItem" onclick="deleteItem(this.id)" name="button">delete</button>
+  <button id="listAndItem" onclick="markAsDone(this.id)" name="done">done</button>
+  <button id="listAndItem" onclick="markAsNotDone(this.id)" name="undone">undone</button>
+  <button id="listAndItem" onclick="editItem(this.id)" name="edit">edit</button>
+  <button id="listAndItem" onclick="deleteItem(this.id)" name="delete">delete</button>
 </div>

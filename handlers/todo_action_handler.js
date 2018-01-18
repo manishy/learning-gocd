@@ -21,7 +21,8 @@ class ToDoActionHandler extends DefaultHandler {
       "/showToDoItems",
       "/addToDoItem",
       "/loadAllToDoList",
-      "/deleteItem"
+      "/deleteItem",
+      "/editItem"
     ]
   }
   valid(req) {
@@ -113,12 +114,14 @@ let actions = {
     user.markAsNotDone(title, item);
     res.end();
   },
-  "/editTodoItem":function(req,res){
-    // let userName = req.user.userName;
-    // let user = this.app.getUser(userName);
-    // let title = req.body.title;
-    // let item = req.body.item;
-    // user.markAsNotDone(title, item);
+  "/editItem":function(req,res){
+    let userName = req.user.userName;
+    let user = this.app.getUser(userName);
+    let title = req.body.title;
+    let oldItemText = req.body.oldText;
+    let newText=req.body.newText;
+    user.editTodoItemText(oldItemText,newText,title);
+    res.end();
   },
   "/deleteItem":function(req,res){
     let userName = req.user.userName;

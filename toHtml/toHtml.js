@@ -8,9 +8,9 @@ exports.convertIntoListTag = function(text){
 
 exports.toInputTag = function(title,toDoItem){
   if(toDoItem.isDone()) {
-    return `<input type="text" class="strikethrough"id=${toDoItem} ${title} disabled value="${toDoItem.text}">`;
+    return `<input type="text" name="${toDoItem.text}_${title}" class="strikethrough"id=${toDoItem.text} ${title} disabled value="${toDoItem.text}">`;
   }
-    return `<input type="text" id=${toDoItem} ${title} disabled value="${toDoItem.text}">`;
+  return `<input type="text" name="${toDoItem.text}_${title}" id=${toDoItem} ${title} disabled value="${toDoItem.text}">`;
 }
 
 exports.item = (title,toDoItems)=>{

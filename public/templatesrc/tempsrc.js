@@ -134,19 +134,6 @@ const markAsDone = function (titleAndItem) {
     showToDo(title, true);
   });
 }
-// const editItem = function(titleAndItem){
-//   let title = titleAndItem.split("__")[0];
-//   let item = titleAndItem.split("__")[1];
-//   let postData = `title=${title}&item=${item}`;
-//   const options = {
-//     method: "POST",
-//     url: "edit",
-//     data: postData
-//   }
-//   doXmlReq(options, () => {
-//     showToDo(title, true);
-//   });
-// }
 
 const deleteItem = function(titleAndItem){
   let title = titleAndItem.split("__")[0];
@@ -163,6 +150,31 @@ const deleteItem = function(titleAndItem){
   });
 }
 
+const editItem = function(titleAndItem){
+  let title = titleAndItem.split("__")[0];
+  let item = titleAndItem.split("__")[1];
+  let divToEdit = document.getElementsByName(`${item}_${title}`)[0];
+  divToEdit.disabled=false;
+  divToEdit.focus();
+  let editButton = document.getElementsByName("edit")[0]
+  editButton.innerText="submit";
+  editButton.onclick=()=>{
+    let newText = divToEdit.value;
+    submit(item,newText,title);
+  }
+}
+
+const submit = function(item,newText,title){
+  let postData = `title=${title}&oldText=${item}&newText=${newText}`;
+  const options = {
+    method: "POST",
+    url: "editItem",
+    data: postData
+  }
+  doXmlReq(options, () => {
+    showToDo(title, true);
+  });
+}
 window.onload = function () {
   let options = {
     method: "POST",
