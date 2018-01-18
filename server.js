@@ -1,5 +1,4 @@
 const http = require('http');
-const updateDB = require("./utility.js").updateDB;
 const app = require("./app.js")
 const PORT = 5000;
 let server = http.createServer(app);

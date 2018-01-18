@@ -28,10 +28,15 @@ class ToDoActionHandler extends DefaultHandler {
   valid(req) {
     return this.acceptedUrls.includes(req.url) && req.method == "POST";
   }
+  updateDB() {
+    let dataBase = JSON.stringify(this.app,null,2);
+    fs.writeFileSync("./data/data.json", dataBase);
+  }
   execute(req, res) {
     if (!this.valid(req)) return
     let action = actions[req.url];
     action.call(this, req, res);
+    this.updateDB();
   }
 }
 
@@ -114,21 +119,21 @@ let actions = {
     user.markAsNotDone(title, item);
     res.end();
   },
-  "/editItem":function(req,res){
+  "/editItem": function (req, res) {
     let userName = req.user.userName;
     let user = this.app.getUser(userName);
     let title = req.body.title;
     let oldItemText = req.body.oldText;
-    let newText=req.body.newText;
-    user.editTodoItemText(oldItemText,newText,title);
+    let newText = req.body.newText;
+    user.editTodoItemText(oldItemText, newText, title);
     res.end();
   },
-  "/deleteItem":function(req,res){
+  "/deleteItem": function (req, res) {
     let userName = req.user.userName;
     let user = this.app.getUser(userName);
     let title = req.body.title;
     let item = req.body.item;
-    user.removeTodoItem(item,title);
+    user.removeTodoItem(item, title);
     res.end();
   }
 }

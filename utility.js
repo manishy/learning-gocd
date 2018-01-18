@@ -7,15 +7,6 @@ let todoListTemplate = exports.getContent("./templates/todoListTitle");
 let addtodoForm = exports.getContent("./templates/addToDoForm");
 
 let toS = o => JSON.stringify(o, null, 2);
-let data = exports.getContent("data/data.json");
-let ToDoApp = require("./lib/userHandler.js");
-let todoApp = new ToDoApp();
-todoApp.retrive(data);
-
-exports.updateDB = function(){
-  let dataBase = JSON.stringify(todoApp,null,2);
-  fs.writeFileSync("data/data.json",dataBase);
-}
 
 const getContentType = function(filePath) {
   let contentTypes = {
