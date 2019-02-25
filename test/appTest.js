@@ -11,7 +11,7 @@ describe('app', () => {
         method: 'GET',
         url: '/bad'
       }, (res) => {
-        assert.equal(res.statusCode, 404);
+        assert.equal(res.statusCode, 400);
         done();
       })
     })
